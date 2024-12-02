@@ -2,7 +2,6 @@ import streamlit as st
 from streamlit_chat import message
 import pandas as pd
 from datetime import date, timedelta  # 날짜 입력을 위해 필요
-import time  # 챗봇 메시지 지연 위해 필요
 
 from PIL import Image  # 챗봇 이미지 로드에 필요
 import requests  # 챗봇 이미지 로드에 필요
@@ -597,50 +596,50 @@ with st.sidebar:
             chatbot_message(f"{selected_styles_kr} 스타일의 여행을 선택했습니다.")
             st.session_state.current_step = 4
 
-    # 여행 일정 스타일 선택
-    if st.session_state.travel_style:
-        chatbot_message("선호하는 여행 일정 스타일은 무엇인가요? 두 가지 타입 중 선택해주세요 🤗")
-        itinerary_preferences = {
-            "빼곡한 일정": "Packed itinerary",
-            "널널한 일정": "Relaxed itinerary"
-        }
-
-        # 상태 초기화
-        if 'itinerary_style_selected' not in st.session_state:
-            st.session_state.itinerary_style_selected = False
-        if 'selected_itinerary_style' not in st.session_state:
-            st.session_state.selected_itinerary_style = None
-
-        # Pills 옵션 및 선택 로직
-        if not st.session_state.itinerary_style_selected:
-            selected_preference_kr = st.pills(
-                label=None,
-                options=list(itinerary_preferences.keys()) + ["처음으로", "이전으로"],
-                selection_mode="single",
-                key="itinerary_style_pills"
-            )
-
-            # '처음으로' 선택 시 대화 초기화
-            if selected_preference_kr == "처음으로":
-                reset_conversation()
-            elif selected_preference_kr == "이전으로":
-                previous_step()
-            elif selected_preference_kr:
-                # 선택 완료 처리
-                st.session_state.itinerary_style_selected = True
-                st.session_state.selected_itinerary_style = selected_preference_kr
-                selected_preference_en = itinerary_preferences[selected_preference_kr]
-                st.session_state.itinerary_preference = selected_preference_en
-                selected_itinerary_style_kr = st.session_state.selected_itinerary_style
-                user_message(f"{selected_itinerary_style_kr}")
-                chatbot_message(f"{selected_itinerary_style_kr}으로 여행 일정을 준비하겠습니다.")
-
-        else:
-            # 선택 완료 후 결과 메시지 출력
-            selected_itinerary_style_kr = st.session_state.selected_itinerary_style
-            user_message(f"{selected_itinerary_style_kr}")
-            chatbot_message(f"{selected_itinerary_style_kr}으로 여행 일정을 준비하겠습니다.")
-            st.session_state.current_step = 5
+    	# 여행 일정 스타일 선택
+	if st.session_state.travel_style:
+	    chatbot_message("선호하는 여행 일정 스타일은 무엇인가요? 두 가지 타입 중 선택해주세요 🤗")
+	    itinerary_preferences = {
+	        "빼곡한 일정": "Packed itinerary",
+	        "널널한 일정": "Relaxed itinerary"
+	    }
+	
+	    # 상태 초기화
+	    if 'itinerary_style_selected' not in st.session_state:
+	        st.session_state.itinerary_style_selected = False
+	    if 'selected_itinerary_style' not in st.session_state:
+	        st.session_state.selected_itinerary_style = None
+	
+	    # Pills 옵션 및 선택 로직
+	    if not st.session_state.itinerary_style_selected:
+	        selected_preference_kr = st.pills(
+	            label=None,
+	            options=list(itinerary_preferences.keys()) + ["처음으로", "이전으로"],
+	            selection_mode="single",
+	            key="itinerary_style_pills"
+	        )
+	
+	        # '처음으로' 선택 시 대화 초기화
+	        if selected_preference_kr == "처음으로":
+	            reset_conversation()
+	        elif selected_preference_kr == "이전으로":
+	            previous_step()
+	        elif selected_preference_kr:
+	            # 선택 완료 처리
+	            st.session_state.itinerary_style_selected = True
+	            st.session_state.selected_itinerary_style = selected_preference_kr
+	            selected_preference_en = itinerary_preferences[selected_preference_kr]
+	            st.session_state.itinerary_preference = selected_preference_en
+	            selected_itinerary_style_kr = st.session_state.selected_itinerary_style
+	            user_message(f"{selected_itinerary_style_kr}")
+	            chatbot_message(f"{selected_itinerary_style_kr}으로 여행 일정을 준비하겠습니다.")
+	
+	    else:
+	        # 선택 완료 후 결과 메시지 출력
+	        selected_itinerary_style_kr = st.session_state.selected_itinerary_style
+	        user_message(f"{selected_itinerary_style_kr}")
+	        chatbot_message(f"{selected_itinerary_style_kr}으로 여행 일정을 준비하겠습니다.")
+	        st.session_state.current_step = 5
 
     # 숙소 유형 선택 - pills와 text_input 같이 표시
     if st.session_state.itinerary_preference:
